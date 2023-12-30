@@ -1,73 +1,30 @@
-$(document).ready(function(){
-    $(window).scroll(function(){
-        // sticky navbar on scroll script
-        if(this.scrollY > 20){
-            $('.navbar').addClass("sticky");
-        }else{
-            $('.navbar').removeClass("sticky");
-        }
-        
-        // scroll-up button show/hide script
-        if(this.scrollY > 500){
-            $('.scroll-up-btn').addClass("show");
-        }else{
-            $('.scroll-up-btn').removeClass("show");
-        }
-    });
+$("#messageState").on("change", (x) => {
+	$(".message").removeClass("openNor").removeClass("closeNor");
+	if ($("#messageState").is(":checked")) {
+		$(".message").removeClass("closed").removeClass("no-anim").addClass("openNor");
+		$(".heart").removeClass("closeHer").removeClass("openedHer").addClass("openHer");
+		$(".container").stop().animate({"backgroundColor": "#f48fb1"}, 2000);
+		console.log("Abrindo");
+	} else {
+		$(".message").removeClass("no-anim").addClass("closeNor");
+		$(".heart").removeClass("openHer").removeClass("openedHer").addClass("closeHer");
+		$(".container").stop().animate({"backgroundColor": "#fce4ec"}, 2000);
+		console.log("fechando");
+	}
+});
 
-    // slide-up script
-    $('.scroll-up-btn').click(function(){
-        $('html').animate({scrollTop: 0});
-        // removing smooth scroll on slide-up button click
-        $('html').css("scrollBehavior", "auto");
-    });
+$(".message").on('webkitAnimationEnd oanimationend msAnimationEnd animationend', function(e) {
+	console.log("Animation End");
+	if ($(".message").hasClass("closeNor"))
+		$(".message").addClass("closed");
+	$(".message").removeClass("openNor").removeClass("closeNor").addClass("no-anim");
+});
 
-    $('.navbar .menu li a').click(function(){
-        // applying again smooth scroll on menu items click
-        $('html').css("scrollBehavior", "smooth");
-    });
-
-    // toggle menu/navbar script
-    $('.menu-btn').click(function(){
-        $('.navbar .menu').toggleClass("active");
-        $('.menu-btn i').toggleClass("active");
-    });
-
-    // typing text animation script
-    var typed = new Typed(".typing", {
-        strings: ["Gamer", "Developer", "Blogger", "Designer", "Youtuber"],
-        typeSpeed: 100,
-        backSpeed: 60,
-        loop: true
-    });
-
-    var typed = new Typed(".typing-2", {
-        strings: ["YouTuber", "Developer", "Blogger", "Designer", "seller"],
-        typeSpeed: 100,
-        backSpeed: 60,
-        loop: true
-    });
-
-    // owl carousel script
-    $('.carousel').owlCarousel({
-        margin: 20,
-        loop: true,
-        autoplay: true,
-        autoplayTimeOut: 2000,
-        autoplayHoverPause: true,
-        responsive: {
-            0:{
-                items: 1,
-                nav: false
-            },
-            600:{
-                items: 2,
-                nav: false
-            },
-            1000:{
-                items: 3,
-                nav: false
-            }
-        }
-    });
+$(".heart").on('webkitAnimationEnd oanimationend msAnimationEnd animationend', function(e) {
+	console.log("Animation End");
+	if (!$(".heart").hasClass("closeHer"))
+		$(".heart").addClass("openedHer").addClass("beating");
+	else
+		$(".heart").addClass("no-anim").removeClass("beating");
+	$(".heart").removeClass("openHer").removeClass("closeHer");
 });
